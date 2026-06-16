@@ -46,3 +46,14 @@ ESX.Streaming = {
     RequestAnimDict = xLib.streaming.requestAnimDict,
     RequestWeaponAsset = xLib.streaming.requestWeaponAsset,
 }
+
+ESX.Scaleform = {
+    ShowFreemodeMessage = xLib.scaleform.showFreemodeMessage,
+    ShowBreakingNews = xLib.scaleform.showBreakingNews,
+    ShowPopupWarning = xLib.scaleform.showPopupWarning,
+    ShowTrafficMovie = xLib.scaleform.showTrafficMovie,
+    Utils = {
+        RequestScaleformMovie = xLib.scaleform.utils.requestScaleformMovie,
+        RunMethod = xLib.scaleform.utils.runMethod,
+    },
+}

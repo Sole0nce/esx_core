@@ -57,7 +57,6 @@ client_scripts {
 	'client/modules/death.lua',
 	'client/modules/npwd.lua',
     'client/modules/interactions.lua',
-	'client/modules/scaleform.lua',
 }
 
 ui_page {
