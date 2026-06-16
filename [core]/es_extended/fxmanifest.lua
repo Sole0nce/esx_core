@@ -49,7 +49,6 @@ client_scripts {
 	'client/modules/wrapper.lua',
 	'client/modules/callback.lua',
     'client/modules/adjustments.lua',
-	'client/modules/points.lua',
 
 	'client/modules/events.lua',
 

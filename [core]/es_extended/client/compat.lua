@@ -57,3 +57,9 @@ ESX.Scaleform = {
         RunMethod = xLib.scaleform.utils.runMethod,
     },
 }
+
+ESX.CreatePointInternal = xLib.points.create
+ESX.RemovePointInternal = xLib.points.remove
+ESX.HidePointInternal = xLib.points.hide
+StartPointsLoop = xLib.points.startLoop
+ESX.Point = xLib.point
