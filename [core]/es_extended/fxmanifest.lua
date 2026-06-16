@@ -58,7 +58,6 @@ client_scripts {
 	'client/modules/npwd.lua',
     'client/modules/interactions.lua',
 	'client/modules/scaleform.lua',
-	'client/modules/streaming.lua',
 }
 
 ui_page {

@@ -37,3 +37,12 @@ end
 ESX.Game.GetClosestEntity = xLib.entity.closest
 EnumerateEntitiesWithinDistance = xLib.entity.EnumerateWithinDistance
 ESX.Game.Teleport = xLib.entity.Teleport
+
+ESX.Streaming = {
+    RequestModel = xLib.streaming.requestModel,
+    RequestStreamedTextureDict = xLib.streaming.requestStreamedTextureDict,
+    RequestNamedPtfxAsset = xLib.streaming.requestNamedPtfxAsset,
+    RequestAnimSet = xLib.streaming.requestAnimSet,
+    RequestAnimDict = xLib.streaming.requestAnimDict,
+    RequestWeaponAsset = xLib.streaming.requestWeaponAsset,
+}
