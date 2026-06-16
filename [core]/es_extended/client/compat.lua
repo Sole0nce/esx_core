@@ -63,3 +63,7 @@ ESX.RemovePointInternal = xLib.points.remove
 ESX.HidePointInternal = xLib.points.hide
 StartPointsLoop = xLib.points.startLoop
 ESX.Point = xLib.point
+
+ESX.RegisterInteraction = xLib.interactions.register
+ESX.RemoveInteraction = xLib.interactions.remove
+ESX.GetInteractKey = xLib.interactions.getInteractKey
