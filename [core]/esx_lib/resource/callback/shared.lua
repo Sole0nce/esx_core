@@ -8,6 +8,7 @@
 
 local registeredCallbacks = {}
 local resource_name = GetCurrentResourceName() --TODO: Add cache
+local IS_DEBUG <const> = GetConvar("xLib:debug", "false") == "true"
 
 
 AddEventHandler('onResourceStop', function(resourceName)
@@ -37,13 +38,19 @@ function xLib.setValidCallback(callbackName, isValid)
 
         if callbackResource == resourceName then return end
 
-        local errMessage = ("^1resource '%s' attempted to overwrite callback '%s' owned by resource '%s'^0"):format(resourceName, callbackName, callbackResource)
+        if IS_DEBUG then
+            local errMessage = ("^1resource '%s' attempted to overwrite callback '%s' owned by resource '%s'^0"):format(resourceName, callbackName, callbackResource)
 
-        return print(('^1SCRIPT ERROR: %s^0\n%s'):format(errMessage,
-            Citizen.InvokeNative(`FORMAT_STACK_TRACE` & 0xFFFFFFFF, nil, 0, Citizen.ResultAsString()) or ''))
+            print(('^1SCRIPT ERROR: %s^0\n%s'):format(errMessage,
+                Citizen.InvokeNative(`FORMAT_STACK_TRACE` & 0xFFFFFFFF, nil, 0, Citizen.ResultAsString()) or ''))
+        end
+
+        return
     end
 
-    print(("set valid callback '%s' for resource '%s'"):format(callbackName, resourceName))
+    if IS_DEBUG then
+        print(("set valid callback '%s' for resource '%s'"):format(callbackName, resourceName))
+    end
 
     registeredCallbacks[callbackName] = resourceName
 end
