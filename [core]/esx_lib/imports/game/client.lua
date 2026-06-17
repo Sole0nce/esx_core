@@ -98,7 +98,7 @@ function xLib.game.spawnVehicle(vehicleModel, coords, heading, cb, networked)
 
         local vehicle = CreateVehicle(model, vector.x, vector.y, vector.z, heading, isNetworked, true)
 
-        if isNetworked then
+        if networked then
             local id = NetworkGetNetworkIdFromEntity(vehicle)
             SetNetworkIdCanMigrate(id, true)
             SetEntityAsMissionEntity(vehicle, true, true)
