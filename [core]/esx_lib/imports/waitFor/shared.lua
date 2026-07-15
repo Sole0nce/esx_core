@@ -20,7 +20,7 @@ function xLib.waitFor(cb, errMessage, timeout, interval)
     end
 
     if timeout ~= false and type(timeout) ~= 'number' then
-        timeout = 1000
+        timeout = 5000
     end
 
     local start = timeout and GetGameTimer()
