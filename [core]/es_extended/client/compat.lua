@@ -1,17 +1,61 @@
 --All client-side functions outsourced from the Core to the lib will be stored here for compatability, e.g:
 
-ESX.Streaming.RequestModel = xLib.streaming.requestModel
-ESX.Streaming.RequestStreamedTextureDict = xLib.streaming.requestStreamedTextureDict 
-ESX.Streaming.RequestNamedPtfxAsset = xLib.streaming.requestNamedPtfxAsset
-ESX.Streaming.RequestAnimSet = xLib.streaming.requestAnimSet
-ESX.Streaming.RequestAnimDict = xLib.streaming.requestAnimDict
-ESX.Streaming.RequestWeaponAsset = xLib.streaming.requestWeaponAsset
-ESX.Game.GetShapeTestResultSync = xLib.Raycast.GetShapeTestResult
-ESX.Game.RaycastScreen = xLib.Raycast.FromScreen
-ESX.Game.StartRaycasting = xLib.Raycast.Start
 ESX.Game.GetClosestEntity = xLib.entity.closest
 EnumerateEntitiesWithinDistance = xLib.entity.EnumerateWithinDistance
 ESX.Game.Teleport = xLib.entity.Teleport
+
+ESX.Streaming = {
+    RequestModel = xLib.streaming.requestModel,
+    RequestStreamedTextureDict = xLib.streaming.requestStreamedTextureDict,
+    RequestNamedPtfxAsset = xLib.streaming.requestNamedPtfxAsset,
+    RequestAnimSet = xLib.streaming.requestAnimSet,
+    RequestAnimDict = xLib.streaming.requestAnimDict,
+    RequestWeaponAsset = xLib.streaming.requestWeaponAsset,
+}
+
+ESX.Scaleform = {
+    ShowFreemodeMessage = xLib.scaleform.showFreemodeMessage,
+    ShowBreakingNews = xLib.scaleform.showBreakingNews,
+    ShowPopupWarning = xLib.scaleform.showPopupWarning,
+    ShowTrafficMovie = xLib.scaleform.showTrafficMovie,
+    Utils = {
+        RequestScaleformMovie = xLib.scaleform.utils.requestScaleformMovie,
+        RunMethod = xLib.scaleform.utils.runMethod,
+    },
+}
+
+ESX.CreatePointInternal = xLib.points.create
+ESX.RemovePointInternal = xLib.points.remove
+ESX.HidePointInternal = xLib.points.hide
+StartPointsLoop = xLib.points.startLoop
+ESX.Point = xLib.point
+
+ESX.RegisterInteraction = xLib.interactions.register
+ESX.RemoveInteraction = xLib.interactions.remove
+ESX.GetInteractKey = xLib.interactions.getInteractKey
+
+ESX.Game.GetPedMugshot = xLib.game.getPedMugshot
+ESX.Game.SpawnObject = xLib.game.spawnObject
+ESX.Game.SpawnLocalObject = xLib.game.spawnLocalObject
+ESX.Game.DeleteVehicle = xLib.game.deleteVehicle
+ESX.Game.DeleteObject = xLib.game.deleteObject
+ESX.Game.SpawnVehicle = xLib.game.spawnVehicle
+ESX.Game.SpawnLocalVehicle = xLib.game.spawnLocalVehicle
+ESX.Game.IsVehicleEmpty = xLib.game.isVehicleEmpty
+ESX.Game.GetObjects = xLib.game.getObjects
+ESX.Game.GetPeds = xLib.game.getPeds
+ESX.Game.GetVehicles = xLib.game.getVehicles
+ESX.Game.GetPlayers = xLib.game.getPlayers
+ESX.Game.GetClosestObject = xLib.game.getClosestObject
+ESX.Game.GetClosestPed = xLib.game.getClosestPed
+ESX.Game.GetClosestPlayer = xLib.game.getClosestPlayer
+ESX.Game.GetClosestVehicle = xLib.game.getClosestVehicle
+ESX.Game.GetPlayersInArea = xLib.game.getPlayersInArea
+ESX.Game.GetVehiclesInArea = xLib.game.getVehiclesInArea
+ESX.Game.IsSpawnPointClear = xLib.game.isSpawnPointClear
+ESX.Game.GetVehicleInDirection = xLib.game.getVehicleInDirection
+ESX.Game.GetVehicleProperties = xLib.game.getVehicleProperties
+ESX.Game.SetVehicleProperties = xLib.game.setVehicleProperties
 
 function ESX.RegisterInput(command_name, label, input_group, key, on_press, on_release)
     return xLib.addKeybind({

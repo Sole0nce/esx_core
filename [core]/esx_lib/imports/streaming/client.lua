@@ -1,3 +1,4 @@
+---@class streaminglib
 xLib.streaming = {}
 
 ---@param modelHash number | string
