@@ -15,6 +15,7 @@ shared_scripts {
     'shared/main.lua',
     'shared/functions.lua',
     'shared/modules/*.lua',
+	'shared/compat.lua'
 }
 
 server_scripts {
@@ -39,6 +40,8 @@ server_scripts {
 	'server/modules/createJob.lua',
 	'server/migration/**/main.lua',
 	'server/migration/main.lua',
+
+	'server/compat.lua'
 }
 
 client_scripts {
@@ -57,6 +60,8 @@ client_scripts {
     'client/modules/interactions.lua',
 	'client/modules/scaleform.lua',
 	'client/modules/streaming.lua',
+
+	'shared/compat.lua'
 }
 
 ui_page {
