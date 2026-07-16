@@ -1,39 +1,45 @@
+---Yields the current thread until the callback returns a non-nil value.
+---@generic T
+---@param cb fun(): T?
+---@param errMessage? string
+---@param timeout? number | false Error out after `~x` ms if the callback hasn't resolved. Defaults to 1000, unless set to `false`.
+---@param interval? integer Polling interval in ms. Defaults to 0. A value above `timeout` overshoots it by one cycle.
+---@return T
+---@async
+function xLib.waitFor(cb, errMessage, timeout, interval)
+    xLib.verify(cb, 'function', true)
 
----@param conditionFunc function A function that is repeatedly called until it returns a truthy value or the timeout is exceeded.
----@param errorMessage? string Optional. If set, an error will be thrown with this message if the condition is not met within the timeout. If not set, no error will be thrown.
----@param timeoutMs? number Optional. The maximum time to wait (in milliseconds) for the condition to be met. Defaults to 1000ms.
----@return boolean, any: Returns success status and the returned value of the condition function.
-xLib.waitFor = function(conditionFunc, errorMessage, timeoutMs)
-    timeoutMs = timeoutMs or 1000
-
-    if timeoutMs < 0 then
-        error("Timeout should be a positive number.")
+    if interval then
+        xLib.verify(interval, 'int', true)
     end
 
-    xLib.verify(conditionFunc, "function", true)
+    local value = cb()
 
-    -- since errorMessage is optional, we only validate it if the user provided it.
-    if errorMessage then
-        xLib.verify(errorMessage, "string", true)
+    if value ~= nil then
+        return value
     end
 
-    local invokingResource = GetInvokingResource()
-    local startTimeMs = GetGameTimer()
-    while GetGameTimer() - startTimeMs < timeoutMs do
-        local result = conditionFunc()
+    if timeout ~= false and type(timeout) ~= 'number' then
+        timeout = 5000
+    end
 
-        if result then
-            return true, result
+    local start = timeout and GetGameTimer()
+
+    while value == nil do
+        Wait(interval or 0)
+
+        value = cb()
+
+        if value == nil and timeout then
+            local elapsed = GetGameTimer() - start
+
+            if elapsed > timeout then
+                return error(('%s (waited %.1fms)'):format(errMessage or 'failed to resolve callback', elapsed), 2)
+            end
         end
-
-        Wait(0)
     end
 
-    if errorMessage then
-        error(("[%s] -> %s"):format(invokingResource, errorMessage))
-    end
-
-    return false
+    return value
 end
 
 return xLib.waitFor
