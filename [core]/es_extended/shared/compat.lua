@@ -15,3 +15,7 @@ ESX.Table.TableContains = xLib.table.contains
 ESX.Table.Sort = xLib.table.sort
 ESX.Table.ToArray = xLib.table.toArray
 ESX.Table.Wipe = xLib.table.wipe
+
+ESX.SetTimeout = xLib.timeout.setTimeout
+ESX.ClearTimeout = xLib.timeout.clearTimeout
+ESX.Await = xLib.waitFor
