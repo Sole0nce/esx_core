@@ -87,7 +87,7 @@ if not IsDuplicityVersion() then -- Only register this event for the client
         end)
     end
 
-    local external = { { "Class", "class.lua" }, { "Point", "point.lua" } }
+    local external = { { "Class", "class.lua" } }
     for i = 1, #external do
         local module = external[i]
         local path = string.format("client/imports/%s", module[2])
