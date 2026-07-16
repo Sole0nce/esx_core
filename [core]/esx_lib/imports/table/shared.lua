@@ -1,5 +1,5 @@
----@class tablelib
-xLib.table = table
+---@class xtable : tablelib
+xLib.table = setmetatable({}, { __index = table })
 
 ---@param tbl table
 ---@return boolean
