@@ -6,6 +6,7 @@ lua54 'yes'
 version '1.13.5'
 
 shared_scripts {
+	'@esx_lib/imports.lua',
 	'locale.lua',
 
 	'shared/config/main.lua',
@@ -15,6 +16,7 @@ shared_scripts {
     'shared/main.lua',
     'shared/functions.lua',
     'shared/modules/*.lua',
+	'shared/compat.lua'
 }
 
 server_scripts {
@@ -39,24 +41,23 @@ server_scripts {
 	'server/modules/createJob.lua',
 	'server/migration/**/main.lua',
 	'server/migration/main.lua',
+
+	'server/compat.lua'
 }
 
 client_scripts {
     'client/main.lua',
 	'client/functions.lua',
+	'client/compat.lua',
 	'client/modules/wrapper.lua',
 	'client/modules/callback.lua',
     'client/modules/adjustments.lua',
-	'client/modules/points.lua',
 
 	'client/modules/events.lua',
 
 	'client/modules/actions.lua',
 	'client/modules/death.lua',
 	'client/modules/npwd.lua',
-    'client/modules/interactions.lua',
-	'client/modules/scaleform.lua',
-	'client/modules/streaming.lua',
 }
 
 ui_page {
