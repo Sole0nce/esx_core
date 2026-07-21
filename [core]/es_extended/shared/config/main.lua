@@ -4,6 +4,11 @@ local txAdminLocale = GetConvar("txAdmin-locale", "en")
 local esxLocale = GetConvar("esx:locale", "invalid")
 Config.Locale = (esxLocale ~= "invalid") and esxLocale or (txAdminLocale ~= "custom" and txAdminLocale) or "en"
 
+-- When a key is missing from the active locale, fall back to the English string
+-- instead of returning a placeholder. Set convar "esx:localeFallback" to "false"
+-- to keep the placeholder (useful when authoring a new translation).
+Config.LocaleFallback = GetConvar("esx:localeFallback", "true") ~= "false"
+
 -- For ox inventory, this will automatically be adjusted, do not change! For other inventories, leave as false unless specifically instructed to change.
 Config.CustomInventory = false
 
