@@ -11,14 +11,48 @@ local function localeFallbackEnabled()
     return GetConvar("esx:localeFallback", "true") ~= "false"
 end
 
---- Lazily load and cache a locale file, false if it cannot be read
+--- Read and execute a locale file, returning its table or false if unreadable.
+local function readLocale(locale)
+    local success, result = pcall(function()
+        return assert(load(LoadResourceFile(GetCurrentResourceName(), ("locales/%s.lua"):format(locale))))()
+    end)
+
+    return success and result or false
+end
+
+--- Copy every key the target locale is missing from English into it once, warn
+--- about the gaps, then let the English table go. The locale ends up
+--- self-contained, so no per-call fallback and only one table stays in memory.
+local function backfillFromEnglish(locale, translations)
+    local english = readLocale("en")
+    if not english then
+        return
+    end
+
+    local missing = {}
+    for key, value in pairs(english) do
+        if translations[key] == nil then
+            translations[key] = value
+            missing[#missing + 1] = key
+        end
+    end
+
+    if #missing > 0 then
+        print(("[es_extended] locale [%s] is missing %d translation(s), falling back to English: %s")
+            :format(locale, #missing, table.concat(missing, ", ")))
+    end
+end
+
+--- Lazily load and cache a locale file, false if it cannot be read.
 local function loadLocale(locale)
     if Locales[locale] == nil then
-        local success, result = pcall(function()
-            return assert(load(LoadResourceFile(GetCurrentResourceName(), ("locales/%s.lua"):format(locale))))()
-        end)
+        local translations = readLocale(locale)
 
-        Locales[locale] = success and result or false
+        if translations and locale ~= "en" and localeFallbackEnabled() then
+            backfillFromEnglish(locale, translations)
+        end
+
+        Locales[locale] = translations
     end
 
     return Locales[locale]
@@ -42,15 +76,6 @@ function Translate(str, ...) -- Translate string
 
     if translations[str] then
         return translations[str]:format(...)
-    end
-
-    -- The locale exists but is missing this key: borrow the English string
-    -- rather than surfacing a placeholder.
-    if Config.Locale ~= "en" and localeFallbackEnabled() then
-        local english = loadLocale("en")
-        if english and english[str] then
-            return english[str]:format(...)
-        end
     end
 
     return ("Translation [%s][%s] does not exist"):format(Config.Locale, str)
