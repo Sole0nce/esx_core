@@ -9,7 +9,7 @@
 local registeredCallbacks = {}
 local resource_name = GetCurrentResourceName() --TODO: Add cache
 local IS_DEBUG <const> = GetConvar("xLib:debug", "false") == "true"
-local VALIDATION_GRACE_MS <const> = GetConvarInt("xLib:callbackValidationGrace", 1000)
+local VALIDATION_GRACE_MS <const> = GetConvarInt("xLib:callbackValidationGrace", 15000)
 
 
 AddEventHandler('onResourceStop', function(resourceName)
