@@ -1,3 +1,8 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-only
+ * Copyright (C) 2022-2026 ESX Framework
+ */
+
 import CharacterSelection from "./components/CharacterSelection";
 import { useState, useEffect } from "react";
 import { useNuiEvent } from "./utils/useNuiEvent";

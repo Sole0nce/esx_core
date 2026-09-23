@@ -1,3 +1,6 @@
+-- SPDX-License-Identifier: GPL-3.0-only
+-- Copyright (C) 2022-2026 ESX Framework
+
 return {
     -- Inventory
     ["inventory"] = "Inventario (Peso %s / %s)",
@@ -226,6 +229,8 @@ return {
     ["weapon_compactlauncher"] = "Lanzagranadas compacto",
     ["weapon_firework"] = "Lanzador de pirotecnia",
     ["weapon_grenadelauncher"] = "Lanzagranadas",
+    ["weapon_grenadelauncher_smoke"] = "Lanzagranadas de gas lacrimógeno",
+    ["weapon_emplauncher"] = "Lanzador EMP",
     ["weapon_hominglauncher"] = "Lanzacohetes teledirigido",
     ["weapon_minigun"] = "Minigun",
     ["weapon_railgun"] = "Cañón de riel",

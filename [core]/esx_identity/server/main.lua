@@ -1,3 +1,6 @@
+-- SPDX-License-Identifier: GPL-3.0-only
+-- Copyright (C) 2022-2026 ESX Framework
+
 local playerIdentity = {}
 local alreadyRegistered = {}
 local multichar = ESX.GetConfig().Multichar
@@ -229,7 +232,7 @@ if not multichar then
         end
     end)
 
-    RegisterNetEvent("esx:playerLoaded", function(_, xPlayer)
+    AddEventHandler("esx:playerLoaded", function(_, xPlayer)
         local currentIdentity = playerIdentity[xPlayer.identifier]
 
         if currentIdentity and alreadyRegistered[xPlayer.identifier] then

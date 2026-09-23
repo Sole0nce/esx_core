@@ -1,3 +1,6 @@
+-- SPDX-License-Identifier: GPL-3.0-only
+-- Copyright (C) 2022-2026 ESX Framework
+
 fx_version 'cerulean'
 game 'gta5'
 
@@ -7,7 +10,7 @@ lua54 'yes'
 author 'ESX Team'
 description 'Official ESX library'
 version '0.01'
-legacyversion '1.15.0'
+legacyversion '1.16.0'
 
 ui_page 'html/medal.html'
 

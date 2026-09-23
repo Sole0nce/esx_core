@@ -1,9 +1,14 @@
+-- SPDX-License-Identifier: GPL-3.0-only
+-- Copyright (C) 2022-2026 ESX Framework
+
 Menu = {}
 Menu._index = Menu
 
 Menu.isOpen = false
 Menu.saveable = false
 Menu.focusIndex = 1
+
+local DRAG_DEGREES_PER_SCREEN <const> = 360.0
 
 local function round(value)
     return math.floor((tonumber(value) or 0) + 0.5)
@@ -196,7 +201,7 @@ function Menu:Refresh(activeName)
         return
     end
 
-    SendNUIMessage(self:BuildPayload(activeName))
+    xLib.nui.send(self:BuildPayload(activeName))
 end
 
 function Menu:UpdateElement(name, element)
@@ -210,11 +215,10 @@ end
 
 function Menu:Close()
     if self.isOpen then
-        SendNUIMessage({ action = "skinMenu:close" })
+        xLib.nui.send({ action = "skinMenu:close" })
     end
 
-    SetNuiFocus(false, false)
-    SetNuiFocusKeepInput(false)
+    xLib.nui.focus(false, false, false)
     Camera:Destroy()
 
     self.isOpen = false
@@ -417,6 +421,17 @@ function Menu:Rotate(direction)
     end
 end
 
+---@param delta number
+function Menu:Drag(delta)
+    delta = normalizeNumber(delta, 0)
+    if not self.isOpen or delta == 0 then
+        return
+    end
+
+    delta = math.max(-1.0, math.min(1.0, delta))
+    Skin.heading = (Skin.heading - delta * DRAG_DEGREES_PER_SCREEN) % 360
+end
+
 function Menu:SetCameraPreset(preset)
     if preset == "face" then
         Skin.zoomOffset = 0.4
@@ -461,10 +476,9 @@ function Menu:Open(submit, cancel, restrict)
     Camera:Create()
 
     self.isOpen = true
-    SetNuiFocus(true, true)
-    SetNuiFocusKeepInput(false)
+    xLib.nui.focus(true, true, false)
     CreateThread(blockInputThread)
-    SendNUIMessage(self:BuildPayload(self.elements[1].name))
+    xLib.nui.send(self:BuildPayload(self.elements[1].name))
 end
 
 function Menu:Saveable(submitCb, cancelCb, restrict, creating)
@@ -487,42 +501,47 @@ function Menu:Saveable(submitCb, cancelCb, restrict, creating)
     self:Refresh(self.elements and self.elements[1] and self.elements[1].name or nil)
 end
 
-RegisterNUICallback("skinMenu:change", function(data, cb)
+xLib.nui.register("skinMenu:change", function(data)
     Menu:Change(data)
-    cb({ ok = true })
+    return { ok = true }
 end)
 
-RegisterNUICallback("skinMenu:focus", function(data, cb)
+xLib.nui.register("skinMenu:focus", function(data)
     Menu:Focus(data)
-    cb({ ok = true })
+    return { ok = true }
 end)
 
-RegisterNUICallback("skinMenu:submit", function(data, cb)
+xLib.nui.register("skinMenu:submit", function(data)
     Menu:Submit(data)
-    cb({ ok = true })
+    return { ok = true }
 end)
 
-RegisterNUICallback("skinMenu:cancel", function(data, cb)
+xLib.nui.register("skinMenu:cancel", function(data)
     Menu:Cancel(data)
-    cb({ ok = true })
+    return { ok = true }
 end)
 
-RegisterNUICallback("skinMenu:reset", function(_, cb)
+xLib.nui.register("skinMenu:reset", function()
     Camera:Reset()
-    cb({ ok = true })
+    return { ok = true }
 end)
 
-RegisterNUICallback("skinMenu:rotate", function(data, cb)
+xLib.nui.register("skinMenu:rotate", function(data)
     Menu:Rotate(type(data) == "table" and data.direction or "right")
-    cb({ ok = true })
+    return { ok = true }
 end)
 
-RegisterNUICallback("skinMenu:camera", function(data, cb)
+xLib.nui.register("skinMenu:drag", function(data)
+    Menu:Drag(type(data) == "table" and data.delta or 0)
+    return { ok = true }
+end)
+
+xLib.nui.register("skinMenu:camera", function(data)
     Menu:SetCameraPreset(type(data) == "table" and data.preset or "full")
-    cb({ ok = true })
+    return { ok = true }
 end)
 
-RegisterNUICallback("skinMenu:apply", function(data, cb)
+xLib.nui.register("skinMenu:apply", function(data)
     Menu:Apply(type(data) == "table" and data.values or {})
-    cb({ ok = true })
+    return { ok = true }
 end)

@@ -1,3 +1,8 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-only
+ * Copyright (C) 2022-2026 ESX Framework
+ */
+
 import React from 'react';
 import { Info, Cake, User2, Briefcase, Trash2 } from 'lucide-react';
 import { Character, Locale } from '../types/Character';

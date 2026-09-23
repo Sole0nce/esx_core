@@ -1,3 +1,6 @@
+-- SPDX-License-Identifier: GPL-3.0-only
+-- Copyright (C) 2022-2026 ESX Framework
+
 --[[
     https://github.com/overextended/ox_lib
 
@@ -11,8 +14,30 @@ local registeredCallbackNames = {}
 local compatCallbacks = {}
 local timers = {}
 local cbEvent = '__xLib_cb_%s'
-local callbackTimeout = GetConvarInt('xLib:callbackTimeout', 300000)
+local DEFAULT_AWAIT_TIMEOUT <const> = 300000
 local resource_name = GetCurrentResourceName() --TODO: Add cache
+
+---@return integer|nil
+local function getConfiguredTimeout()
+    local value = tonumber(GetConvar('xLib:callbackTimeout', GetConvar('esx:callbackTimeout', '')))
+
+    if value and value < math.huge then
+        return math.max(math.floor(value), 0)
+    end
+end
+
+local configuredTimeout = getConfiguredTimeout()
+local awaitTimeout = configuredTimeout or DEFAULT_AWAIT_TIMEOUT
+
+local function createCallbackKey(event)
+    local key
+
+    repeat
+        key = ('%s:%s:%s'):format(event, GetGameTimer(), xLib.string.randomHex(32))
+    until not pendingCallbacks[key]
+
+    return key
+end
 
 local function publishValidCallback(name)
     local ok = pcall(function()
@@ -96,11 +121,7 @@ end
 local function triggerServerCallback(_, event, delay, cb, ...)
     if not eventTimer(event, delay) then return end
 
-    local key
-
-    repeat
-        key = ('%s:%s'):format(event, math.random(0, 100000))
-    until not pendingCallbacks[key]
+    local key = createCallbackKey(event)
 
     ---@type promise | false
     local promise = not cb and promise.new()
@@ -123,12 +144,29 @@ local function triggerServerCallback(_, event, delay, cb, ...)
         end
     end
 
+    local timeout = promise and awaitTimeout or configuredTimeout
+
+    if timeout and timeout > 0 then
+        SetTimeout(timeout, function()
+            if not pendingCallbacks[key] then
+                return
+            end
+
+            pendingCallbacks[key] = nil
+
+            local err = ("callback event '%s' timed out"):format(key)
+            if promise then
+                promise:reject(err)
+            elseif cb then
+                warn(err)
+            end
+        end)
+    end
+
     TriggerServerEvent('xLib:validateCallback', event, resource_name, key)
     TriggerServerEvent(cbEvent:format(event), resource_name, key, ...)
 
     if promise then
-        SetTimeout(callbackTimeout, function() promise:reject(("callback event '%s' timed out"):format(key)) end)
-
         return table.unpack(Citizen.Await(promise))
     end
 end
@@ -214,6 +252,15 @@ function xLib.callback.registerCompat(name, cb, owner)
             end
 
             return table.unpack(values)
+        end
+
+        if configuredTimeout and configuredTimeout > 0 then
+            SetTimeout(configuredTimeout, function()
+                if not responded then
+                    responded = true
+                    response:reject(("compat callback '%s' timed out"):format(name))
+                end
+            end)
         end
 
         cb(reply, ...)

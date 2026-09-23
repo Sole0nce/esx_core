@@ -1,9 +1,16 @@
+-- SPDX-License-Identifier: GPL-3.0-only
+-- Copyright (C) 2022-2026 ESX Framework
+
 ESX.Players = {}
 ESX.Jobs = {}
 ESX.Items = {}
 
 RegisterNetEvent("esx:onPlayerSpawn", function()
-    ESX.Players[source].spawned = true
+    local xPlayer = ESX.Players[source]
+
+    if xPlayer then
+        xPlayer.spawned = true
+    end
 end)
 
 if Config.CustomInventory then
@@ -35,19 +42,6 @@ MySQL.ready(function()
     StartDBSync()
     if Config.EnablePaycheck then
         StartPayCheck()
-    end
-end)
-
-RegisterNetEvent("esx:clientLog", function(msg)
-    if Config.EnableDebug then
-        print(("[^2TRACE^7] %s^7"):format(msg))
-    end
-end)
-
-RegisterNetEvent("esx:ReturnVehicleType", function(Type, Request)
-    if Core.ClientCallbacks[Request] then
-        Core.ClientCallbacks[Request](Type)
-        Core.ClientCallbacks[Request] = nil
     end
 end)
 

@@ -1,3 +1,6 @@
+-- SPDX-License-Identifier: GPL-3.0-only
+-- Copyright (C) 2022-2026 ESX Framework
+
 ---@class pointslib
 xLib.points = {}
 
@@ -26,6 +29,8 @@ function xLib.points.create(coords, distance, hidden, enter, leave, inside)
         inside = inside,
         resource = GetInvokingResource()
     }
+
+    xLib.points.startLoop()
 
     return handle
 end

@@ -1,3 +1,8 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-only
+ * Copyright (C) 2022-2026 ESX Framework
+ */
+
 import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Character, Locale } from '../types/Character';

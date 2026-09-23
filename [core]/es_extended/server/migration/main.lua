@@ -1,3 +1,6 @@
+-- SPDX-License-Identifier: GPL-3.0-only
+-- Copyright (C) 2022-2026 ESX Framework
+
 RegisterCommand("resetmigrations", function(src)
 	if src > 0 then
 		print("^1[ERROR]^7 This command can only be run from the server console.")

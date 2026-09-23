@@ -1,3 +1,6 @@
+-- SPDX-License-Identifier: GPL-3.0-only
+-- Copyright (C) 2022-2026 ESX Framework
+
 version '1.15.2'
 author 'ESX-Framework'
 description 'A ESX Stylised theme for the chat resource.'
